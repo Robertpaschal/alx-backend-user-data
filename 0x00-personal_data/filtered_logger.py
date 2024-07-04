@@ -6,7 +6,14 @@ import re
 from typing import List
 
 
-def filter_datum(fields: List[str], redaction: str, message: str, seperator: str) -> str:
-    """Function that returns the log message obfuscated"""
-    pattern = '|'.join([f'(?<={field}=)[^{seperator}]+' for field in fields])
-    return re.sub(pattern, redaction, message)
+patterns = {
+    'extract': lambda x, y: r'(?P<field>{})=[^{}]*'.format('|'.join(x), y),
+    'replace': lambda x: r'\g<field>={}'.format(x),
+}
+def filter_datum(
+        fields: List[str], redaction: str, message: str, separator: str,
+        ) -> str:
+    """Filters a log line.
+    """
+    extract, replace = (patterns["extract"], patterns["replace"])
+    return re.sub(extract(fields, separator), replace(redaction), message)
