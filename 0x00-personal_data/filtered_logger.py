@@ -6,7 +6,7 @@ import re
 from typing import List
 import logging
 import os
-from mysql.connector import connection
+import mysql.connector
 import mysql
 from dotenv import load_dotenv
 
@@ -34,7 +34,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> connection.MySQLConnection:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     Returns a connector to the database
         (mysql.connector.connection.MySQLConnection object).
