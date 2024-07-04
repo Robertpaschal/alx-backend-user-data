@@ -7,9 +7,7 @@ from typing import List
 
 
 def filter_datum(
-        fields: List[str],
-        redaction: str,
-        message: str,
+        fields: List[str], redaction: str, message: str,
         seperator: str) -> str:
     """
     Function that returns the log message obfuscated
