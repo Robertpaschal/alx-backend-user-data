@@ -5,8 +5,12 @@ This module contains a log filter function
 import re
 from typing import List
 import logging
+import os
+from mysql.connector import connection
+import mysql
+from dotenv import load_dotenv
 
-
+load_dotenv()
 PII_FIELDS = ("name", "email", "password", "ssn", "phone")
 
 
@@ -28,6 +32,35 @@ def get_logger() -> logging.Logger:
 
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> connection.MySQLConnection:
+    """
+    Returns a connector to the database
+        (mysql.connector.connection.MySQLConnection object).
+
+    The database credentials are obtained from environment variables:
+    - PERSONAL_DATA_DB_USERNAME: Username for the database (default: "root")
+    - PERSONAL_DATA_DB_PASSWORD: Password for the database (default: "")
+    - PERSONAL_DATA_DB_HOST: Hostname for the database (default: "localhost")
+    - PERSONAL_DATA_DB_NAME: Name of the database
+    """
+    username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    database_host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    database_name = os.getenv('PERSONAL_DATA_DB_NAME')
+
+    if not database_name:
+        raise ValueError(
+            "The database name must "
+            "be set in the PERSONAL_DATA_DB_NAME environment variable.")
+
+    return mysql.connector.connect(
+        user=username,
+        password=password,
+        host=database_host,
+        database=database_name
+    )
 
 
 def filter_datum(
