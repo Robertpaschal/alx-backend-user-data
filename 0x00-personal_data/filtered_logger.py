@@ -44,16 +44,16 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     - PERSONAL_DATA_DB_HOST: Hostname for the database (default: "localhost")
     - PERSONAL_DATA_DB_NAME: Name of the database
     """
-    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
-    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    database_host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    database_name = os.getenv('PERSONAL_DATA_DB_NAME')
+
     connection = mysql.connector.connect(
-        host=db_host,
-        port=3306,
-        user=db_user,
-        password=db_pwd,
-        database=db_name,
+        user=username,
+        password=password,
+        host=database_host,
+        database=database_name
     )
     return connection
 
@@ -77,6 +77,7 @@ def main():
             args = ("user_data", logging.INFO, None, None, msg, None, None)
             log_record = logging.LogRecord(*args)
             info_logger.handle(log_record)
+
 
 
 def filter_datum(
