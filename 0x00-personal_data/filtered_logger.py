@@ -79,7 +79,6 @@ def main():
             info_logger.handle(log_record)
 
 
-
 def filter_datum(
         fields: List[str], redaction: str, message: str,
         separator: str) -> str:
