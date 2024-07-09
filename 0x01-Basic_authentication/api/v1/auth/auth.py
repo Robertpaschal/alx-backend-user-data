@@ -3,6 +3,7 @@
 from typing import List, TypeVar
 import fnmatch
 
+
 class Auth:
     """Authentication class"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
@@ -17,11 +18,11 @@ class Auth:
         if not path.endswith('/'):
             path += '/'
 
-        for excluded_path in excluded_paths:
-            if excluded_path.endswith('/'):
+        for pattern in excluded_paths:
+            if not pattern.endswith('/'):
                 pattern = pattern + '*'
             if fnmatch.fnmatch(path, pattern):
-                    return False
+                return False
 
         return True
 
