@@ -19,6 +19,7 @@ if AUTH_TYPE == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -37,16 +38,19 @@ def forbidden(error) -> str:
     """ Not allowed to access a resource"""
     return jsonify({"error": "Forbidden"}), 403
 
+
 @app.before_request
 def before_request() -> str:
     """Filter requests before they are processed."""
     if auth is None:
         return
-    
-    excluded_paths =  ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+
+    excluded_paths = ['/api/v1/status/',
+                      '/api/v1/unauthorized/',
+                      '/api/v1/forbidden/']
     if not auth.require_auth(request.path, excluded_paths):
         return
-    
+
     if auth.authorization_header(request) is None:
         abort(401)
     if auth.current_user(request) is None:
