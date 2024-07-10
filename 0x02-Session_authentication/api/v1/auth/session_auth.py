@@ -2,7 +2,7 @@
 """ A session authentication module that inherits from Auth class"""
 from api.v1.auth.auth import Auth
 import uuid
-
+from models.user import User
 
 class SessionAuth(Auth):
     """A class for session authentication that inherits from Auth"""
@@ -24,3 +24,14 @@ class SessionAuth(Auth):
             return None
         value = self.user_id_by_session_id.get(session_id)
         return value
+
+    def current_user(self, request=None) -> str:
+        """ returns a User instance based on a cookie value"""
+        session_cookie = self.session_cookie(request)
+        if not session_cookie:
+            return None
+        
+        User_id = self.user_id_for_session_id(session_cookie)
+        if not User_id:
+            return None
+        return User.get(User_id)
