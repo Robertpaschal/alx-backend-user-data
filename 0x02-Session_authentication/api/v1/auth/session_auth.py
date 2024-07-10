@@ -4,6 +4,7 @@ from api.v1.auth.auth import Auth
 import uuid
 from models.user import User
 
+
 class SessionAuth(Auth):
     """A class for session authentication that inherits from Auth"""
     user_id_by_session_id = {}
@@ -30,7 +31,7 @@ class SessionAuth(Auth):
         session_cookie = self.session_cookie(request)
         if not session_cookie:
             return None
-        
+
         User_id = self.user_id_for_session_id(session_cookie)
         if not User_id:
             return None
