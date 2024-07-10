@@ -2,6 +2,7 @@
 """Authentication Module"""
 from typing import List, TypeVar
 import fnmatch
+from os import getenv
 
 
 class Auth:
@@ -39,3 +40,14 @@ class Auth:
         Retrieves the current user from the request.
         """
         return None
+
+    def session_cookie(self, request=None) -> str:
+        """returns a cookie value from a request"""
+        if request is None:
+            return None
+        session = None
+        session_name = getenv('SESSION_NAME')
+        if session_name == '_my_session_id':
+            session = session_name
+            cookie = request.cookies.get(session)
+            return cookie
