@@ -2,9 +2,9 @@
 """A new flask view that handles all routes for session authenticato"""
 from api.v1.views import app_views
 from models.user import User
-from flask import jsonify, request
-from api.v1 import auth
+from flask import jsonify, request, abort
 import os
+from typing import Tuple
 
 
 @app_views.route(
@@ -32,6 +32,7 @@ def login() -> str:
     user = users[0]
 
     if not user.is_valid_password(password):
+        from api.v1.app import auth
         return jsonify({"error": "wrong password"}), 401
 
     session_id = auth.create_session(user.id)
@@ -41,3 +42,16 @@ def login() -> str:
     response.set_cookie(session_name, session_id)
 
     return response
+
+@app_views.route(
+    '/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout() -> Tuple[str, int]:
+    """DELETE /api/v1/auth_session/logout
+    Return:
+      - An empty JSON object.
+    """
+    from api.v1.app import auth
+    is_destroyed = auth.destroy_session(request)
+    if not is_destroyed:
+        abort(404)
+    return jsonify({})
