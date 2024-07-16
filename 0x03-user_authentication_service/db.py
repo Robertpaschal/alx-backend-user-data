@@ -57,3 +57,13 @@ class DB:
             raise
         except Exception as e:
             raise InvalidRequestError from e
+        
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Updates a user attributes"""
+        session = self._session
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError(f"Attribute '{key}' does not exist on User")
+            setattr(user, key, value)
+        session.commit()
