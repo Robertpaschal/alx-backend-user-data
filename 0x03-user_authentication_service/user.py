@@ -8,8 +8,9 @@ from typing import Optional
 
 Base = declarative_base()
 
+
 class User(Base):
-    """Represens a user in the database"""
+    """Represents a user in the database"""
     __tablename__ = 'users'
 
     id: int = Column(Integer, primary_key=True)
