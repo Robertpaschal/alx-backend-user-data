@@ -57,7 +57,7 @@ class DB:
             raise
         except Exception as e:
             raise InvalidRequestError from e
-        
+
     def update_user(self, user_id: int, **kwargs) -> None:
         """Updates a user attributes"""
         session = self._session
