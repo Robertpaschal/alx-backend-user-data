@@ -5,6 +5,7 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
+
 @app.route("/", methods=["GET"])
 def welcome():
     """GET route that returns a JSON payload with a welcome message"""
