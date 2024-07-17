@@ -78,10 +78,9 @@ def get_reset_password_token() -> str:
     if not email:
         abort(403)
     try:
-        user = AUTH._db.find_user_by(email=email)
-        reset_token = AUTH.get_reset_password_token(user.email)
+        reset_token = AUTH.get_reset_password_token(email)
         response = jsonify(
-            {"email": user.email, "reset_token": reset_token}), 200
+            {"email": email, "reset_token": reset_token}), 200
         return response
     except ValueError:
         abort(403)
