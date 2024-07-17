@@ -6,6 +6,7 @@ from user import User
 from sqlalchemy.orm.exc import NoResultFound
 import uuid
 
+
 def _hash_password(password: str) -> bytes:
     """Hashes a password"""
     salt = bcrypt.gensalt()
