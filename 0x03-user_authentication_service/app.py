@@ -102,6 +102,7 @@ def update_password() -> str:
             {"email": email, "message": "Password updated"}), 200
         return response
     except ValueError:
+        is_password_changed = False
         abort(403)
 
 
