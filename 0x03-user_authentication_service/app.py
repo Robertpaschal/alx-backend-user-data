@@ -93,8 +93,6 @@ def update_password() -> str:
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
     is_password_changed = False
-    if is_password_changed:
-        abort(403)
     try:
         AUTH.update_password(reset_token, new_password)
         is_password_changed = True
