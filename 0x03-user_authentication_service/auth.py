@@ -45,10 +45,15 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             if user is not None:
-                return bcrypt.checkpw(
+                try:
+                    hashed_bytes = user.hashed_password.encode('utf-8')
+                except AttributeError:
+                    hashed_bytes = user.hashed_password
+                if bcrypt.checkpw(
                     password.encode("utf-8"),
-                    user.hashed_password.encode("utf-8"),
-                )
+                    hashed_bytes,
+                ):
+                    return True
         except NoResultFound:
             return False
         return False
