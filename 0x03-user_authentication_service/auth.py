@@ -42,10 +42,9 @@ class Auth:
         """Validates a user login using details"""
         try:
             user = self._db.find_user_by(email=email)
-            if user is not None:
-                return bcrypt.checkpw(
-                    password.encode('utf-8'), user.hashed_password.encode(
-                        'utf-8'))
+            return bcrypt.checkpw(
+                password.encode('utf-8'), user.hashed_password.encode(
+                    'utf-8'))
         except NoResultFound:
             return False
 
