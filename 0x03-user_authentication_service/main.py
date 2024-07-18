@@ -35,7 +35,6 @@ def log_in_wrong_password(email: str, password: str) -> None:
         'password': password,
     }
     res = requests.post(url, data=body)
-    print(f"Wrong password status code: {res.status_code}")
     assert res.status_code == 401
 
 
@@ -81,7 +80,6 @@ def log_out(session_id: str) -> None:
         'session_id': session_id,
     }
     res = requests.delete(url, cookies=req_cookies)
-    print(f"Logout code: {res.status_code}")
     assert res.status_code == 200
     assert res.json() == {"message": "Bienvenue"}
 
