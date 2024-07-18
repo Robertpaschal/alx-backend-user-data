@@ -47,7 +47,7 @@ class Auth:
             if user is not None:
                 return bcrypt.checkpw(
                     password.encode("utf-8"),
-                    user.hashed_password,
+                    user.hashed_password.encode("utf-8"),
                 )
         except NoResultFound:
             return False
