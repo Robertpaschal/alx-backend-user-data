@@ -94,12 +94,7 @@ def update_password() -> str:
         - The user's password updated payload.
     """
     email = request.form.get("email")
-    
-    try:
-        reset_token = request.form.get("reset_token")
-    except Exception:
-        abort(403)
-
+    reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
     is_password_changed = False
     try:
