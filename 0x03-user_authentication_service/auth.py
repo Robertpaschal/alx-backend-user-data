@@ -39,13 +39,19 @@ class Auth:
             return self._db.add_user(email, hashed_password.decode('utf-8'))
 
     def valid_login(self, email: str, password: str) -> bool:
-        """Validates a user login using details"""
+        """Checks if a user's login details are valid.
+        """
+        user = None
         try:
             user = self._db.find_user_by(email=email)
-            return bcrypt.checkpw(
-                password.encode('utf-8'), user.hashed_password,)
+            if user is not None:
+                return bcrypt.checkpw(
+                    password.encode("utf-8"),
+                    user.hashed_password,
+                )
         except NoResultFound:
             return False
+        return False
 
     def create_session(self, email: str) -> str:
         """creates a session for a user"""
