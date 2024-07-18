@@ -102,6 +102,7 @@ def update_password() -> str:
         is_password_changed = True
     except ValueError:
         is_password_changed = False
+        abort(403)
     if not is_password_changed:
         abort(403)
     return jsonify({"email": email, "message": "Password updated"})
