@@ -100,12 +100,12 @@ def update_password() -> str:
     try:
         AUTH.update_password(reset_token, new_password)
         is_password_changed = True
+        return jsonify({"email": email, "message": "Password updated"}), 200
     except ValueError:
         is_password_changed = False
         abort(403)
     if not is_password_changed:
         abort(403)
-    return jsonify({"email": email, "message": "Password updated"}), 200
 
 
 if __name__ == "__main__":
