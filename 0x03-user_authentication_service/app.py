@@ -97,7 +97,7 @@ def update_password() -> str:
     
     try:
         reset_token = request.form.get("reset_token")
-    except ValueError:
+    except Exception:
         abort(403)
 
     new_password = request.form.get("new_password")
